@@ -30,9 +30,8 @@ spring:
       restart:
         enabled: true
     redis:
-	  open: true  # 是否开启redis缓存  true开启   false关闭
       database: 1 #索引（默认为0）
-      host: 10.84.1.187 #地址
+      host: 10.84.1.180 #地址
       port: 6379 #端口号
       password: 123456 #连接密码（默认空）
       jedis:

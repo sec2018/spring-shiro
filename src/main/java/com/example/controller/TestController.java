@@ -15,7 +15,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.example.SpringShrioApplication;
 import com.example.pojo.User;
+import com.example.redis.service.RedisService;
 import com.example.service.UserService;
+
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -28,6 +30,9 @@ public class TestController {
 	
 	@Autowired
     private UserService userService;
+	
+	@Autowired
+    private RedisService redisService;
    
     public void set(){
         redisTemplate.opsForValue().set("key1","testValue1");
@@ -35,7 +40,6 @@ public class TestController {
         Assert.assertEquals("testValue1",redisTemplate.opsForValue().get("key1"));
     }
 
-    @Test
     public void testobjSerializer() throws InterruptedException {
     	
        User user = userService.findUserByName("wang");
@@ -48,5 +52,11 @@ public class TestController {
        User user2 = userService.findUserByName("chen");
        // 放入缓存，并设置缓存时间
        redisTemplate.opsForValue().set("User:chen", user2, 600, TimeUnit.SECONDS);
-   }
+    }
+    
+    @Test
+    public void testRedisService() {
+    	redisService.set("wang:phone", "15221275860");
+    	System.out.println(redisService.get("wang:phone"));
+    }
 }
